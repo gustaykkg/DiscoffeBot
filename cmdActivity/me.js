@@ -1,16 +1,14 @@
 const {MessageEmbed} = require("discord.js");
 const {client} = require('../index')
-const Database = require("../Helpers/Database");
-const vt = new Database("Database", "Voice");
-const mdb = new Database("Database", "Message");
+const db = require('quick.db')
 const moment = require("moment");
 const config = require("../config");
 require("moment-duration-format");
 
 module.exports={me}
 async function me(message){
-    let voiceData = vt.get(`stats.${message.guild.id}.${message.author.id}`) || {voice: 0, channels: {}};
-    let messageData = mdb.get(`stats.${message.guild.id}.${message.author.id}`) || {messages: 0, channels: {}};
+    let voiceData = db.get(`stats.${message.guild.id}.${message.author.id}`) || {voice: 0, channels: {}};
+    let messageData = db.get(`statsm.${message.guild.id}.${message.author.id}`) || {messages: 0, channels: {}};
 
     let voiceList = Object.keys(voiceData.channels).map(vd => {
         return {
@@ -41,9 +39,7 @@ async function me(message){
     .addField("Informações de usuario",` 
     
     \`ID:\` ${message.author.id} 
-    \`Cargos:\` ${message.member.roles.cache.size >= 8 ? "O usuario possui muitos cargos..." : message.member.roles.cache.map(role => role.toString())}
-    \`Nome:\` ${message.member.displayName}
-    `)
+    \`Nome:\` ${message.member.displayName}`)
     .addField("Atividade de voz", `
     Ultima Atividade: ${new Date(voiceData.activity).toLocaleDateString()}
     ** **${voiceList}
@@ -61,9 +57,7 @@ async function me(message){
     .addField("Informações de usuario",` 
     
     \`ID:\` ${message.author.id} 
-    \`Cargos:\` ${message.member.roles.cache.size >= 8 ? "O usuario possui muitos cargos..." : message.member.roles.cache.map(role => role.toString())}
-    \`Nome:\` ${message.member.displayName}
-    `)
+    \`Nome:\` ${message.member.displayName}`)
     .addField("Atividade em mensagem", `
     Ultima Atividade: ${new Date(messageData.activity).toLocaleDateString()}
     ** **${messageList}
@@ -82,7 +76,6 @@ async function me(message){
     .addField("Informações de usuario",` 
     
     \`ID:\` ${message.author.id} 
-    \`Cargos:\` ${message.member.roles.cache.size >= 8 ? "O usuario possui muitos cargos..." : message.member.roles.cache.map(role => role.toString())}
     \`Nome:\` ${message.member.displayName}
     `)
     .addField("Atividade de voz", `

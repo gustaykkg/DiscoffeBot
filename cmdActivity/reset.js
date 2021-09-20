@@ -1,6 +1,4 @@
-const Database = require("../Helpers/Database");
-const vt = new Database("Database", "Voice");
-const mdb = new Database("Database", "Message");
+const db = require('quick.db')
 const { TrimMsg } = require('../events/funcoes')
 module.exports={reset}
 
@@ -10,26 +8,25 @@ async function reset(message) {
 
     let msgArgs = TrimMsg(message)
 
-    console.log(msgArgs)
     let a = false
     switch (msgArgs[1]) {
         case "all":
-            vt.set(`stats.${message.guild.id}`, {});
-            mdb.set(`stats.${message.guild.id}`, {});
+            db.set(`stats.${message.guild.id}`, {});
+            db.set(`statsm.${message.guild.id}`, {});
             a = true
             break;
         case "voice":
             a = true
-            vt.set(`stats.${message.guild.id}`, {});
+            db.set(`stats.${message.guild.id}`, {});
 
             break;
         case "messages":
             a = true
-            mdb.set(`stats.${message.guild.id}`, {});
+            db.set(`statsm.${message.guild.id}`, {});
             break;
         default:
             a = false
-            message.channel.send("Opps, syntax errada `!rstats <all, voice, messages>`")
+            message.channel.send("Opps, syntax errada `&reset <all, voice, messages>`")
             break;
     }
     delete_Messages(deleteMessages);

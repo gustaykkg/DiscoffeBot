@@ -1,7 +1,5 @@
 const { MessageEmbed } = require('discord.js')
-const Database = require("../Helpers/Database");
-const vt = new Database("Database", "Voice");
-const mdb = new Database("Database", "Message");
+const db = require('quick.db')
 const moment = require("moment");
 require("moment-duration-format");
 
@@ -9,8 +7,8 @@ module.exports={rank}
 
 async function rank(message){
     if(!message.member.permissions.has("ADMINISTRATOR") && !message.member.permissions.has("MANAGE_GUILD")) return message.reply("Opps, você não tem permissões para isso");
-    const voiceData = vt.get(`stats.${message.guild.id}`) || undefined;
-    const messageData = mdb.get(`stats.${message.guild.id}`) || undefined;
+    const voiceData = db.get(`stats.${message.guild.id}`) || undefined;
+    const messageData = db.get(`statsm.${message.guild.id}`) || undefined;
 
     let messageList = "Sem resultados.";
     if(messageData){
