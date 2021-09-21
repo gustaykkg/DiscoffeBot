@@ -3,9 +3,10 @@ const config = require('../config')
 const {TrimMsg} = require("../events/funcoes");
 const {MessageEmbed} = require('discord.js')
 
+
+try{
 module.exports = {tempmute};
 function tempmute(msg, args) {
-	try{
 	//variaveis
     if(!msg.member.permissions.has('MUTE_MEMBERS')) return 
     
@@ -37,16 +38,8 @@ function tempmute(msg, args) {
 		  console.log(`${muteUser} mutado`)
 		  muteUser.roles.add(muteRole, `Mutado por ${msg.author.tag} por ${minutes} minutos. Razão: ${muteReason}`); //adiciona cargo mutado
 		  timeout(minutes, muteUser, muteRole, msg)
-	}catch(err) {
-        const emb = embed.get(`Err!`, 1)
-        msg.channel.send({ embeds: [emb] });
-        msg.delete();
-    
-        const channel = client.channels.cache.get('889666042740244510')
-        logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
-        channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
-    }
 	}
+	
 	
 //mensagem desmute	
 	function timeout(minutes, muteUser, muteRole, msg) {
@@ -69,5 +62,13 @@ function tempmute(msg, args) {
 
 }	
 
+}catch(err) {
+	const emb = embed.get(`Err!`, 1)
+	msg.channel.send({ embeds: [emb] });
+	msg.delete();
 
+	const channel = client.channels.cache.get('889666042740244510')
+	logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+	channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+}
 

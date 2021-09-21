@@ -1,8 +1,9 @@
 const { MessageEmbed } = require('discord.js')
 const { TrimMsg } = require("../events/funcoes");
 
-module.exports={avatar}
-
+try{
+    
+    module.exports={avatar}
     async function avatar(msg){
         
         const embed = new MessageEmbed()
@@ -15,3 +16,12 @@ module.exports={avatar}
         embed.setColor(member.displayHexColor)
         msg.channel.send({content: msg.author.toString() , embeds: [embed]})
     }
+}catch(err) {
+    const emb = embed.get(`Err!`, 1)
+    msg.channel.send({ embeds: [emb] });
+    msg.delete();
+
+    const channel = client.channels.cache.get('889666042740244510')
+    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+}

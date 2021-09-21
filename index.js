@@ -8,6 +8,7 @@ const cmdActivity = fs.readdirSync(`./cmdActivity`).filter(file => file.endsWith
 const cmdFun = fs.readdirSync(`./cmdFun`).filter(file => file.endsWith(`.js`))
 const events = fs.readdirSync(`./events`).filter(file => file.endsWith(`.js`))
 
+try{
 module.exports={client}
 
 console.log(cmdActivity, events)
@@ -25,5 +26,12 @@ client.on("ready", () => {
     
 });
 
-
 client.login(config.Token);
+}catch(err) {
+    const emb = embed.get(`Err!`, 1)
+    msg.channel.send({ embeds: [emb] });
+    msg.delete();
+
+    const channel = client.channels.cache.get('889666042740244510')
+    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });}
