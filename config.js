@@ -1,6 +1,6 @@
 module.exports={
     Token: "ODg3MDY0Nzc1ODM2NzA4ODY0.YT-tcw.ZrehSm4FPQjEnWGMaPA6BunfaaY",
-    Prefix: "!",
+    Prefix: "&",
     roles:{
         movcall: "883178013368393860",
         movchat: "887065984509280307",
