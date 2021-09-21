@@ -7,6 +7,7 @@ require("moment-duration-format");
 
 module.exports={me}
 async function me(message){
+    try{
     let voiceData = db.get(`stats.${message.guild.id}.${message.author.id}`) || {voice: 0, channels: {}};
     let messageData = db.get(`statsm.${message.guild.id}.${message.author.id}`) || {messages: 0, channels: {}};
 
@@ -89,4 +90,13 @@ async function me(message){
 
     message.channel.send({ embeds: [embed] });
     }else if(!message.member.roles.cache.has(config.roles.movcall) && !message.member.roles.cache.has(config.roles.movchat)) return message.channel.send({embeds: [{title: `Entre para a equipe Discoffee!!`, description: `Infelizmente você não faz parte da equipe de mov do nosso server\ncaso tenha interesse em ser recrutado de uma olhada no chat\n<#887903923984298004>`, color:message.member.displayHexColor}]})
+} catch(err) {
+    const emb = embed.get(`Err!`, 1)
+    msg.channel.send({ embeds: [emb] });
+    msg.delete();
+
+    const channel = client.channels.cache.get('889666042740244510')
+    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+}
 };

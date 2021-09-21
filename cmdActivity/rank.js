@@ -6,6 +6,7 @@ require("moment-duration-format");
 module.exports={rank}
 
 async function rank(message){
+    try {
     if(!message.member.permissions.has("ADMINISTRATOR") && !message.member.permissions.has("MANAGE_GUILD")) return message.reply("Opps, você não tem permissões para isso");
     const voiceData = db.get(`stats.${message.guild.id}`) || undefined;
     const messageData = db.get(`statsm.${message.guild.id}`) || undefined;
@@ -37,4 +38,13 @@ async function rank(message){
     .addField("Voice | Ranking", `** **\n${voiceList}`)
     .addField("Message | Ranking", `** **\n${messageList}`);
     message.channel.send({ embeds: [embed] });
+}catch(err) {
+    const emb = embed.get(`Err!`, 1)
+    msg.channel.send({ embeds: [emb] });
+    msg.delete();
+
+    const channel = client.channels.cache.get('889666042740244510')
+    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+}
 };
