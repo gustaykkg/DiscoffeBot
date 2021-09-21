@@ -4,10 +4,9 @@ const moment = require(`moment-timezone`)
  returns the latency of the bot
 */
 
-    try{
         module.exports={ping}
         async function ping(msg){
-
+        try{
     // Adds the user to the set so that they can't talk for a minute
     
     let pingingMsg = await msg.channel.send({ embeds: [{
@@ -19,13 +18,14 @@ const moment = require(`moment-timezone`)
         description: `**Pong!** Corri até valhalla e voltei em ${pingingMsg.createdTimestamp - msg.createdTimestamp}ms`
     }]});
 
-    }
-}catch(err) {
-    const emb = embed.get(`Err!`, 1)
-    msg.channel.send({ embeds: [emb] });
-    msg.delete();
+    }catch(err) {
+        const emb = embed.get(`Err!`, 1)
+        msg.channel.send({ embeds: [emb] });
+        msg.delete();
+    
+        const channel = client.channels.cache.get('889666042740244510')
+        logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+        channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
 
-    const channel = client.channels.cache.get('889666042740244510')
-    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
-    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
 }
+        }

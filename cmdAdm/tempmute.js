@@ -4,9 +4,9 @@ const {TrimMsg} = require("../events/funcoes");
 const {MessageEmbed} = require('discord.js')
 
 
-try{
 module.exports = {tempmute};
 function tempmute(msg, args) {
+	try{
 	//variaveis
     if(!msg.member.permissions.has('MUTE_MEMBERS')) return 
     
@@ -38,37 +38,35 @@ function tempmute(msg, args) {
 		  console.log(`${muteUser} mutado`)
 		  muteUser.roles.add(muteRole, `Mutado por ${msg.author.tag} por ${minutes} minutos. Razão: ${muteReason}`); //adiciona cargo mutado
 		  timeout(minutes, muteUser, muteRole, msg)
-	}
+	}catch(err) {
+		const emb = embed.get(`Err!`, 1)
+		msg.channel.send({ embeds: [emb] });
+		msg.delete();
 	
-	
-//mensagem desmute	
-	function timeout(minutes, muteUser, muteRole, msg) {
-		if (muteUser.roles.cache.has(config.roles.muted)){
-		setTimeout(() => {
-		muteUser.roles.remove(muteRole, `Mute temporario expirado.`); //retira cargo mute
-	var channel = client.channels.cache.get(config.channels.modlog)
-		var muteEmbed = new MessageEmbed()
-		muteEmbed.setColor(config.color.sucess)
-		muteEmbed.setTitle("Desmutado")
-		muteEmbed.setDescription(`Usuario desmutado ${muteUser}\nRazão: Tempo acabou.`)
-		muteEmbed.setFooter(`Desmutado por Discoffee Bot`)
-		muteEmbed.setTimestamp();
-		msg.channel.send({ embeds: [muteEmbed] })
-		channel.send({ embeds: [muteEmbed] })
-		muteUser.send('Você foi desmutado, por que o tempo acabou.').catch(console.error)
-		console.log(`${muteUser} desmutado`)
-	  }, minutes * 60000);
-	}
-
-}	
-
-}catch(err) {
-	const emb = embed.get(`Err!`, 1)
-	msg.channel.send({ embeds: [emb] });
-	msg.delete();
-
-	const channel = client.channels.cache.get('889666042740244510')
-	logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
-	channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+		const channel = client.channels.cache.get('889666042740244510')
+		console.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+		channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
 }
+
+//mensagem desmute
+function timeout(minutes, muteUser, muteRole, msg) {
+	if (muteUser.roles.cache.has(config.roles.muted)){
+	setTimeout(() => {
+	muteUser.roles.remove(muteRole, `Mute temporario expirado.`); //retira cargo mute
+var channel = client.channels.cache.get(config.channels.modlog)
+	var muteEmbed = new MessageEmbed()
+	muteEmbed.setColor(config.color.sucess)
+	muteEmbed.setTitle("Desmutado")
+	muteEmbed.setDescription(`Usuario desmutado ${muteUser}\nRazão: Tempo acabou.`)
+	muteEmbed.setFooter(`Desmutado por Discoffee Bot`)
+	muteEmbed.setTimestamp();
+	msg.channel.send({ embeds: [muteEmbed] })
+	channel.send({ embeds: [muteEmbed] })
+	muteUser.send('Você foi desmutado, por que o tempo acabou.').catch(console.error)
+	console.log(`${muteUser} desmutado`)
+  }, minutes * 60000);
+}
+}	
+}
+
 

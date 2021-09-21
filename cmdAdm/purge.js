@@ -4,9 +4,9 @@ const embed = require('../events/embed');
 const config = require('../config');
 
 
-try{
  module.exports={purge}
 async function purge(msg){
+    try{
     if(!msg.member.permissions.has('MANAGE_MESSAGES')) return 
     const args = TrimMsg(msg) 
     let prefixos = config.Prefix
@@ -41,7 +41,6 @@ async function purge(msg){
     msg.channel.send(`${member} messagens apagadas.`)
         }
     }    
-}
 }catch(err) {
     const emb = embed.get(`Err!`, 1)
     msg.channel.send({ embeds: [emb] });
@@ -50,3 +49,5 @@ async function purge(msg){
     const channel = client.channels.cache.get('889666042740244510')
     logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
     channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });}
+
+}

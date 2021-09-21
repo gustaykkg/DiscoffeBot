@@ -1,11 +1,10 @@
 const { MessageEmbed } = require('discord.js')
 const { TrimMsg } = require("../events/funcoes");
 
-try{
     
     module.exports={avatar}
     async function avatar(msg){
-        
+        try{
         const embed = new MessageEmbed()
         
         let msgArgs = TrimMsg(msg)
@@ -15,13 +14,13 @@ try{
         embed.setImage(member.user.displayAvatarURL( { size:1024 } ) )
         embed.setColor(member.displayHexColor)
         msg.channel.send({content: msg.author.toString() , embeds: [embed]})
-    }
-}catch(err) {
-    const emb = embed.get(`Err!`, 1)
-    msg.channel.send({ embeds: [emb] });
-    msg.delete();
-
-    const channel = client.channels.cache.get('889666042740244510')
-    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
-    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+    }catch(err) {
+        const emb = embed.get(`Err!`, 1)
+        msg.channel.send({ embeds: [emb] });
+        msg.delete();
+    
+        const channel = client.channels.cache.get('889666042740244510')
+        logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+        channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
 }
+    }

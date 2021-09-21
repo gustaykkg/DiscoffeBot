@@ -3,9 +3,9 @@ const { TrimMsg } = require('../events/funcoes');
 
 
 
-try{
     module.exports={userinfo}
     async function userinfo(msg){
+        try{
         const embed = new MessageEmbed()
         embed.setDescription(`⠀`)
         
@@ -46,11 +46,20 @@ try{
 
         msg.channel.send({content: msg.author.toString(),embeds:[embed]})
 
+    }catch(err) {
+        const emb = embed.get(`Err!`, 1)
+        msg.channel.send({ embeds: [emb] });
+        msg.delete();
+    
+        const channel = client.channels.cache.get('889666042740244510')
+        logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+        channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
     }
+}
 
 
 function format_user(member){
-
+try{
     let description = `${member.user.tag}`
     
     let date = Date.now() - member.joinedAt 
@@ -60,10 +69,22 @@ function format_user(member){
     description += ''
     return description
     
+}catch(err) {
+    const emb = embed.get(`Err!`, 1)
+    msg.channel.send({ embeds: [emb] });
+    msg.delete();
+
+    const channel = client.channels.cache.get('889666042740244510')
+    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+}
+
 }
 
 function format_date_created(date){
     
+try{
+
     let date_formated = []
 
         
@@ -74,10 +95,21 @@ function format_date_created(date){
     if(date.getFullYear() - 1970) date_formated.push(date.getFullYear()- 1970+`${(!(date.getFullYear()- 1970 == 1)) ? " anos " : " ano "}`)  
 
     return date_formated.reverse().join('');
+}catch(err) {
+    const emb = embed.get(`Err!`, 1)
+    msg.channel.send({ embeds: [emb] });
+    msg.delete();
+
+    const channel = client.channels.cache.get('889666042740244510')
+    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+}
+
 }
 
 function format_date(date){
-    
+    try{
+
     let date_formated = []
 
 
@@ -89,7 +121,6 @@ function format_date(date){
 
 
     return date_formated.reverse().join('');
-}
 }catch(err) {
     const emb = embed.get(`Err!`, 1)
     msg.channel.send({ embeds: [emb] });
@@ -98,4 +129,6 @@ function format_date(date){
     const channel = client.channels.cache.get('889666042740244510')
     logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
     channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+}
+
 }

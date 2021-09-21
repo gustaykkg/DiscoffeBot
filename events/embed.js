@@ -2,10 +2,11 @@ const { MessageEmbed } = require('discord.js')
 const config = require("../config");
 
 
-try{
+
     module.exports={get, getwd}
 
 function get(content, type) {
+    try{
     let embed = new MessageEmbed();
 
     switch(type){
@@ -31,10 +32,21 @@ function get(content, type) {
     }
 
     return embed;
+}catch(err) {
+    const emb = embed.get(`Err!`, 1)
+    msg.channel.send({ embeds: [emb] });
+    msg.delete();
+
+    const channel = client.channels.cache.get('889666042740244510')
+    logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
+    channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
 }
 
-function getwd(content, description, type) 
-{
+}
+
+function getwd(content, description, type) {
+    try{
+
     let embed = new MessageEmbed();
 
     switch(type){
@@ -61,7 +73,6 @@ function getwd(content, description, type)
     }
 
     return embed;
-}
 }catch(err) {
     const emb = embed.get(`Err!`, 1)
     msg.channel.send({ embeds: [emb] });
@@ -70,4 +81,5 @@ function getwd(content, description, type)
     const channel = client.channels.cache.get('889666042740244510')
     logger.log(`Command: ${msg.content} | Guild: ${msg.guild.id}`, 0)
     channel.send({ embeds: [embed.getwd(`Error`, "Command:```"+msg.content+"```\nError:```"+err+"```", 1)] });
+}
 }
